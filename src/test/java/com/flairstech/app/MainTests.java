@@ -1,12 +1,6 @@
 package com.flairstech.app;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
