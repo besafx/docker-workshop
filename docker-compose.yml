@@ -1,0 +1,25 @@
+version: "3"
+services: 
+  api: 
+    build: .
+    container_name: api-service
+    depends_on: 
+      - db
+    networks: 
+      - net
+    ports: 
+      - "6030:6030"
+  db: 
+    build: database/
+    container_name: postgres-service
+    networks: 
+      - net
+    ports: 
+      - "5030:5432"
+    volumes: 
+      - "database:/var/lib/postgresql/data"
+networks: 
+  net: 
+    driver: bridge
+volumes: 
+  database: {}

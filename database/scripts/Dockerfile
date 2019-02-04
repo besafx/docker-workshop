@@ -1,6 +1,21 @@
 #---------------------------------------------------------#
 #                                                         #
-# Stage 1: Create Build Image                             #
+# Stage 1: Setup Postgres Database                        #
+#                                                         #
+#---------------------------------------------------------#
+FROM postgres:11
+ENV POSTGRES_USER root
+ENV POSTGRES_PASSWORD root
+ENV POSTGRES_DB world-db
+ADD src/main/resources/scripts/*.sql /docker-entrypoint-initdb.d/
+COPY docker-healthcheck /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-healthcheck
+HEALTHCHECK CMD ["docker-healthcheck"]
+EXPOSE 5030
+
+#---------------------------------------------------------#
+#                                                         #
+# Stage 2: Create Build Image                             #
 #                                                         #
 #---------------------------------------------------------#
 FROM openjdk:8-jdk-alpine3.7 AS builder
@@ -12,7 +27,7 @@ RUN mvn package
 
 #---------------------------------------------------------#
 #                                                         #
-# Stage 2: Create Container Executable                    #
+# Stage 3: Create Container Executable                    #
 #                                                         #
 #---------------------------------------------------------#
 FROM openjdk:8-jre-alpine3.7
