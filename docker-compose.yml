@@ -2,7 +2,7 @@ version: "3"
 services: 
   api: 
     build: .
-    container_name: api-service
+    image: api-service
     depends_on: 
       - db
     networks: 
@@ -11,7 +11,7 @@ services:
       - "6030:6030"
   db: 
     build: database/
-    container_name: postgres-service
+    image: db-service:latest
     networks: 
       - net
     ports: 

@@ -8,7 +8,7 @@ RUN java -version
 COPY . /usr/src/myapp/
 WORKDIR /usr/src/myapp/
 RUN apk --no-cache add maven && mvn --version
-RUN mvn package
+RUN mvn package -Dmaven.test.skip=true
 
 #---------------------------------------------------------#
 #                                                         #
