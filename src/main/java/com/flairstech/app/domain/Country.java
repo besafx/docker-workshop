@@ -1,64 +1,78 @@
 package com.flairstech.app.domain;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
-@Data
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "country")
-public class Country implements Serializable {
+@Table(name = "country", schema = "public")
+@Data
+public class Country implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(length = 3)
+	@Column(name = "code", unique = true, nullable = false, length = 3)
 	private String code;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "capital")
+	private City city;
+
+	@Column(name = "name", nullable = false)
 	private String name;
 
+	@Column(name = "continent", nullable = false)
 	private String continent;
 
+	@Column(name = "region", nullable = false)
 	private String region;
 
-	private Float surface_area;
+	@Column(name = "surface_area", nullable = false, precision = 8, scale = 8)
+	private float surfaceArea;
 
-	private Short indep_year;
+	@Column(name = "indep_year")
+	private Short indepYear;
 
-	private Integer population;
+	@Column(name = "population", nullable = false)
+	private int population;
 
-	private Float life_expectancy;
+	@Column(name = "life_expectancy", precision = 8, scale = 8)
+	private Float lifeExpectancy;
 
-	@Column(precision = 10, scale = 2)
+	@Column(name = "gnp", precision = 10)
 	private BigDecimal gnp;
 
-	@Column(precision = 10, scale = 2)
-	private BigDecimal gnp_old;
+	@Column(name = "gnp_old", precision = 10)
+	private BigDecimal gnpOld;
 
-	private String local_name;
+	@Column(name = "local_name", nullable = false)
+	private String localName;
 
-	private String government_form;
+	@Column(name = "government_form", nullable = false)
+	private String governmentForm;
 
-	private String head_of_state;
+	@Column(name = "head_of_state")
+	private String headOfState;
 
-	@Column(length = 2)
+	@Column(name = "code2", nullable = false, length = 2)
 	private String code2;
 
-	@ManyToOne
-	@JoinColumn(name = "capital")
-	private City capital;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
+	private Set<CountryLanguage> countryLanguages = new HashSet<CountryLanguage>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
+	private Set<City> cities = new HashSet<City>(0);
+
 }

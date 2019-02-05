@@ -1,41 +1,44 @@
 package com.flairstech.app.domain;
 
-import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
-@Data
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name="city")
-public class City implements Serializable {
+@Table(name = "city", schema = "public")
+@Data
+public class City implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
+	@Column(name = "id", unique = true, nullable = false)
+	private int id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "country_code", nullable = false)
+	private Country country;
+
+	@Column(name = "name", nullable = false)
 	private String name;
-	
+
+	@Column(name = "district", nullable = false)
 	private String district;
-	
-	private Integer population;
-	
-	@ManyToOne
-    @JoinColumn(name = "country_code")
-	@JsonIgnore
-    private Country country;
+
+	@Column(name = "population", nullable = false)
+	private int population;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
+	private Set<Country> countries = new HashSet<Country>(0);
 
 }

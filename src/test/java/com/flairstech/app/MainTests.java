@@ -2,6 +2,8 @@ package com.flairstech.app;
 
 import static org.junit.Assert.assertEquals;
 
+import javax.transaction.Transactional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -26,7 +28,9 @@ public class MainTests {
 	private MockMvc mvc;
 
 	@Test
-	public void testCases() throws Exception {
+	@Transactional
+	public void testIFCountryExist() throws Exception {
+		LOG.info("TESTING IF COUNTRY EXIST");
 		MvcResult mvcResult = mvc
 				.perform(MockMvcRequestBuilders.get("/AFG")
 				.accept(MediaType.APPLICATION_JSON_VALUE))
@@ -35,7 +39,28 @@ public class MainTests {
 		LOG.info(mvcResult.getResponse().getContentAsString());
 
 		int status = mvcResult.getResponse().getStatus();
+		
+		LOG.info("Status:" + status);
+		
 		assertEquals(200, status);
+	}
+	
+	@Test
+	@Transactional
+	public void testIFCountryNotExist() throws Exception {
+		LOG.info("TESTING IF COUNTRY NOT EXIST");
+		MvcResult mvcResult = mvc
+				.perform(MockMvcRequestBuilders.get("/DUMY")
+				.accept(MediaType.APPLICATION_JSON_VALUE))
+				.andReturn();
+		
+		LOG.info(mvcResult.getResponse().getContentAsString());
+
+		int status = mvcResult.getResponse().getStatus();
+		
+		LOG.info("Status:" + status);
+		
+		assertEquals(500, status);
 	}
 
 }
