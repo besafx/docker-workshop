@@ -19,9 +19,9 @@ import com.flairstech.app.services.CountryService;
 
 @RestController
 public class CountryController {
-	
+
 	private final static Logger LOG = LoggerFactory.getLogger(CountryController.class);
-	
+
 	@Autowired
 	private DataSource dataSource;
 
@@ -30,10 +30,15 @@ public class CountryController {
 
 	@GetMapping("/{country_code}")
 	@ResponseBody
-	public Country getCountryByCode(@PathVariable(value = "country_code") String country_code) throws CustomException, SQLException {
-		Optional.ofNullable(dataSource.getConnection().getCatalog()).orElseThrow(() -> new CustomException("INTERNAL_ERROR - CHECK YOUR CONNECTION"));
-		Optional.ofNullable(country_code).orElseThrow(() -> new CustomException("INVALID_COUNTRY_CODE"));
-		return countryService.findByCode(country_code).orElseThrow(() -> new CustomException("NOT_FOUND"));
+	public Country getCountryByCode(@PathVariable(value = "country_code") String country_code)throws CustomException, SQLException {
+		Optional.ofNullable(dataSource.getConnection().getCatalog())
+				.orElseThrow(() -> new CustomException("INTERNAL_ERROR - CHECK YOUR CONNECTION"));
+		
+		Optional.ofNullable(country_code)
+				.orElseThrow(() -> new CustomException("INVALID_COUNTRY_CODE"));
+		
+		return countryService.findByCode(country_code)
+				.orElseThrow(() -> new CustomException("NOT_FOUND"));
 	}
 
 }

@@ -1,15 +1,19 @@
-version: "3"
+version: "3.7"
 services: 
   api: 
+    container_name: api
     build: .
     image: api-service
-    depends_on: 
-      - db
     networks: 
       - net
+    depends_on: 
+      - db
+    links:
+      - db
     ports: 
       - "6030:6030"
   db: 
+    container_name: db
     build: database/
     image: db-service:latest
     networks: 
@@ -20,6 +24,7 @@ services:
       - "database:/var/lib/postgresql/data"
 networks: 
   net: 
+    name: net
     driver: bridge
 volumes: 
   database: {}

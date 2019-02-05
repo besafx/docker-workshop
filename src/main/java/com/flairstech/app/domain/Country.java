@@ -19,7 +19,7 @@ import lombok.Data;
 @Data
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name="country")
+@Table(name = "country")
 public class Country implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -61,5 +61,4 @@ public class Country implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "capital")
 	private City capital;
-
 }
