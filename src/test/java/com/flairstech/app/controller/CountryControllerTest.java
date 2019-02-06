@@ -36,6 +36,16 @@ public class CountryControllerTest {
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}
+	
+	@Test
+	public void testIFCountryCodeNotExist() throws Exception {
+		MvcResult mvcResult = mockMvc
+				.perform(MockMvcRequestBuilders.get("/")
+				.accept(MediaType.APPLICATION_JSON))
+				.andDo(print()).andReturn();
+
+		assertEquals(404, mvcResult.getResponse().getStatus());
+	}
 
 	@Test
 	public void testIFCountryExist() throws Exception {

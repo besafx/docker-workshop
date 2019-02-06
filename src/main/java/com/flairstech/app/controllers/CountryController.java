@@ -49,6 +49,7 @@ public class CountryController {
 				.orElseThrow(() -> new CustomException("INTERNAL_ERROR - CHECK YOUR CONNECTION"));
 		
 		Optional.ofNullable(country_code)
+				.filter(v -> v.length() == 3)
 				.orElseThrow(() -> new CustomException("INVALID_COUNTRY_CODE"));
 		
 		Country country = countryService.findByCode(country_code)
