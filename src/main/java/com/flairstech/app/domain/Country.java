@@ -2,7 +2,9 @@ package com.flairstech.app.domain;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -74,5 +76,18 @@ public class Country implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
 	private Set<City> cities = new HashSet<City>(0);
+	
+	public List<String> getLanguages() {
+		return this.countryLanguages.stream()
+				.map(countryLangauge -> countryLangauge.getId().getLanguage())
+				.collect(Collectors.toList());
+	}
+	
+	public List<String> getOfficialLanguages() {
+		return this.countryLanguages.stream()
+				.filter(CountryLanguage::isIsOfficial)
+				.map(countryLangauge -> countryLangauge.getId().getLanguage())
+				.collect(Collectors.toList());
+	}
 
 }

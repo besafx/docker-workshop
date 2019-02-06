@@ -3,7 +3,7 @@ services:
   api: 
     container_name: api
     build: .
-    image: api-service
+    image: flairstech/api:latest
     networks: 
       - net
     depends_on: 
@@ -15,7 +15,7 @@ services:
   db: 
     container_name: db
     build: database/
-    image: db-service:latest
+    image: flairstech/db:latest
     networks: 
       - net
     ports: 

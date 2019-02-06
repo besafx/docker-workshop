@@ -30,8 +30,9 @@ public class CountryController {
 			+ "name,"
 			+ "continent,"
 			+ "population,"
-			+ "life_expectancy,"
-			+ "countryLanguages[**,-country]";
+			+ "languages,"
+			+ "officialLanguages,"
+			+ "life_expectancy";
 
 	@Autowired
 	private DataSource dataSource;
