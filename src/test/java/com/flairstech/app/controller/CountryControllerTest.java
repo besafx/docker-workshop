@@ -50,7 +50,7 @@ public class CountryControllerTest {
 	@Test
 	public void testIFCountryExist() throws Exception {
 		MvcResult mvcResult = mockMvc
-				.perform(MockMvcRequestBuilders.get("/AFG")
+				.perform(MockMvcRequestBuilders.get("/USA")
 				.accept(MediaType.APPLICATION_JSON))
 				.andDo(print()).andReturn();
 
