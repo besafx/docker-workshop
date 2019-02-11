@@ -10,6 +10,9 @@ pipeline {
                     args '-p 5030:5432'
                 }
             }
+            steps{
+                echo 'Server Runing on port 5030'
+            }
         }
         stage('Building Image') {
             agent { docker 'maven:3.5.2-jdk-9' } 
