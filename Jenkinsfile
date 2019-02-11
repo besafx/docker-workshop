@@ -2,14 +2,19 @@ pipeline {
     agent none 
     stages {
         stage('Runing Postgres Server'){
-            agent {
-                dockerfile{
-                    filename 'Dockerfile'
-                    dir 'database'
+            agent { 
+                docker {
+                    image 'postgres:11'
                     args '-p 5030:5432'
                 }
             }
+            environment {
+                POSTGRES_USER = 'root'
+                POSTGRES_PASSWORD = 'root'
+                POSTGRES_DB = 'world-db'
+            }
             steps{
+                sh 'chmod +x database/docker-healthcheck'
                 echo 'Server Runing on port 5030'
             }
         }
