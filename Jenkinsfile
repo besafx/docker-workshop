@@ -5,7 +5,6 @@ pipeline {
             agent {
                 dockerfile{
                     filename 'Dockerfile'
-                    label 'db'
                     dir 'database'
                     args '-p 5030:5432'
                 }
