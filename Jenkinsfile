@@ -1,18 +1,11 @@
 pipeline {
     agent none 
     stages {
-        stage('Example Build') {
-            agent { docker 'maven:latest' } 
+        stage('Building Image') {
+            agent { docker 'maven:3.5.2-jdk-9' } 
             steps {
-                echo 'Hello, Maven'
-                sh 'mvn --version'
-            }
-        }
-        stage('Example Test') {
-            agent { docker 'openjdk:9' } 
-            steps {
-                echo 'Hello, JDK'
-                sh 'java -version'
+                echo 'Building Image'
+                sh 'mvn clean package -DskipTests -Djavax.net.ssl.trustStorePassword=changeit'
             }
         }
     }
