@@ -1,6 +1,16 @@
 pipeline {
     agent none 
     stages {
+        stage('Runing Postgres Server'){
+            agent {
+                dockerfile{
+                    filename 'Dockerfile'
+                    label 'db'
+                    dir 'database'
+                    args '-p 5030:5432'
+                }
+            }
+        }
         stage('Building Image') {
             agent { docker 'maven:3.5.2-jdk-9' } 
             steps {
